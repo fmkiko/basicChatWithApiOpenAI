@@ -3,7 +3,6 @@ require('dotenv').config();
 class OpenAIAPI {
     static async generateResponse(userMessage, conversationHistory = []) {
         const apiKey = process.env.OPENAI_API_KEY;
-        console.log('api: ',apiKey);
         const endpoint = 'https://api.openai.com/v1/chat/completions';
         const response = await fetch(endpoint, {
             method: 'POST',
