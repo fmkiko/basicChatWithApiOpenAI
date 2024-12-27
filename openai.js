@@ -1,6 +1,8 @@
+const { OpenAI } = require('openai');
+
 require('dotenv').config();
 
-class OpenAIAPI {
+class OpenAI_API {
     static async generateResponse(userMessage, conversationHistory = []) {
         const apiKey = process.env.OPENAI_API_KEY;
         const endpoint = 'https://api.openai.com/v1/chat/completions';
@@ -27,5 +29,15 @@ class OpenAIAPI {
             return 'Sorry, I couldn\'t understand that.';
         }
     }
+
+    static async generateResponseSDK(userMessage, conversationHistory = []) {
+        const apiKey = process.env.OPENAI_API_KEY;
+        const openAI = new OpenAI(apiKey);
+        const completion = await openAI.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: conversationHistory.concat([{ role: 'user', content: userMessage }])
+        })
+        return completion.choices[0].message.content; 
+    }
 }
-module.exports = { OpenAIAPI };
+module.exports = { OpenAI_API };
