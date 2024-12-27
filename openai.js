@@ -18,8 +18,6 @@ class OpenAIAPI {
         });
         const responseData = await response.json();
         // Log the entire API response for 
-        console.log(process.env.OPENAI_API_KEY);
-        console.log('Response from OpenAI API:', responseData);
         // Check if choices array is defined and not empty
         if (responseData.choices && responseData.choices.length > 0 && responseData.choices[0].message) {
             return responseData.choices[0].message.content;
