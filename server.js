@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const { OpenAI_API } = require('./openai');
 const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 
 
 const app = express();
@@ -20,6 +21,7 @@ const port = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(limiter);
+app.use(helmet());
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
