@@ -29,6 +29,7 @@ app.use(helmet());
 app.use(cookieParser());
 // Configura csurf
 const csrfProtection = csurf({ cookie: true }); //Configura la cookie para que sea httpOnly
+app.use(csrfProtection);
 // Middleware para pasar el token CSRF a las vistas
 app.use(function (req, res, next) {
     res.locals.csrfToken = req.csrfToken();
