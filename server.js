@@ -4,6 +4,8 @@ const path = require('path');
 const { OpenAI_API } = require('./openai');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const csurf = require('csurf');
+const cookieParser = require('cookie-parser');
 
 
 const app = express();
@@ -22,6 +24,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(limiter);
 app.use(helmet());
+
+// Usa cookie-parser ANTES de csurf
+app.use(cookieParser());
+// Configura csurf
+const csrfProtection = csurf({ cookie: true }); //Configura la cookie para que sea httpOnly
+// Middleware para pasar el token CSRF a las vistas
+app.use(function (req, res, next) {
+    res.locals.csrfToken = req.csrfToken();
+    next();
+  });
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
